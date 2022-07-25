@@ -1,0 +1,35 @@
+{
+  "name": "finder",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon --exec ts-node ./src/server.ts --ext ts,js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@graphql-tools/load-files": "^6.6.0",
+    "@graphql-tools/merge": "^8.3.0",
+    "@graphql-tools/schema": "^8.5.0",
+    "@prisma/client": "^4.1.0",
+    "@types/express": "^4.17.13",
+    "@types/graphql-upload": "^8.0.11",
+    "@types/morgan": "^1.9.3",
+    "apollo-server": "^3.10.0",
+    "apollo-server-core": "^3.10.0",
+    "apollo-server-express": "^3.10.0",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "framer-motion": "^6.5.1",
+    "graphql": "^16.5.0",
+    "graphql-upload": "^16.0.0",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "prisma": "^4.1.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.7.4"
+  }
+}
