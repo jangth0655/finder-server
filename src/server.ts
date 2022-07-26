@@ -5,8 +5,8 @@ import http from "http";
 import logger from "morgan";
 import { typeDefs, resolvers } from "./schema";
 import { ApolloServerPluginDrainHttpServer } from "apollo-server-core";
-
-import Upload = require("graphql-upload/Upload.mjs");
+import { graphqlUploadExpress } from "graphql-upload";
+import { getUser } from "./users/user.utils";
 
 const PORT = process.env.PORT;
 
@@ -18,11 +18,17 @@ async function startApolloServer() {
     typeDefs,
     resolvers,
     cache: "bounded",
+    context: async ({ req }) => {
+      return {
+        loggedInUser: await getUser(req.headers.token as string),
+      };
+    },
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
   });
 
-  app.use(logger("tiny"));
+  //app.use(logger("tiny"));
   await apollo.start();
+  app.use(graphqlUploadExpress());
   apollo.applyMiddleware({ app });
 
   await new Promise<void>((resolve) =>

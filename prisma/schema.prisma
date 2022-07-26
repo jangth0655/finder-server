@@ -9,3 +9,71 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+
+model User { 
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  username String @unique
+  name String
+  email String @unique
+  region String
+  bio String?
+  careers String
+  avatar String?
+  phone String?
+  password String
+  followers User[] @relation("FollowRelation")
+  following User[] @relation("FollowRelation")
+  favs Fav[]
+  shops Shop[]
+  comments Comment[]
+}
+
+model Shop { 
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  website String?
+  region String
+  description String
+  name String
+  slug String @unique
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int
+  photos Photo[]
+  favs Fav[]
+  comments Comment[]
+}
+
+model Photo { 
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt 
+  url String
+  shop Shop @relation(fields: [shopId], references: [id], onDelete: Cascade)
+  shopId Int
+}
+
+model Fav { 
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt 
+  shop Shop @relation(fields: [shopId], references: [id], onDelete: Cascade)
+  shopId Int
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int
+}
+
+model Comment {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt 
+  shop Shop @relation(fields: [shopId], references: [id], onDelete: Cascade)
+  shopId Int
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int
+  comment String
+}
+

@@ -12,5 +12,9 @@ export default gql`
     bio: String
     careers: String
     region: String!
+    phone: String!
+    name: String!
+    followers: [User]
+    following: [User]
   }
 `;
