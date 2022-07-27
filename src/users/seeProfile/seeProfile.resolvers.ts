@@ -18,6 +18,7 @@ const resolvers: Resolvers = {
         }
         return {
           ok: true,
+          user,
         };
       } catch (e) {
         console.log(e);

@@ -28,3 +28,16 @@ export const UploadToS3 = async (
     .promise();
   return Location;
 };
+
+const S3 = new AWS.S3();
+
+export const deleteToS3 = async (fileUrl: any, folderName: string) => {
+  const decodeUrl = decodeURI(fileUrl);
+  const filePath = decodeUrl.split(folderName)[0];
+  const fileName = `${folderName}${filePath}`;
+
+  S3.deleteObject({
+    Bucket: "finder-uploads",
+    Key: fileName,
+  }).promise();
+};

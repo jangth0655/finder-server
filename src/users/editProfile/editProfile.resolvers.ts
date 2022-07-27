@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import client from "../../client";
-import { UploadToS3 } from "../../shared/shared.utils";
+import { deleteToS3, UploadToS3 } from "../../shared/shared.utils";
 import { Resolvers } from "../../type";
 import { protectResolver } from "../user.utils";
 const GraphQLUpload = require("graphql-upload");
@@ -31,6 +31,7 @@ const resolvers: Resolvers = {
           }
           let fileUrl = null;
           if (avatar) {
+            await deleteToS3(avatar, "avatar");
             fileUrl = await UploadToS3(avatar, loggedInUser.id, "avatar");
           }
 
