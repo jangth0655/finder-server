@@ -38,7 +38,7 @@ model Shop {
   website String?
   region String
   description String
-  name String
+  name String @unique
   slug String @unique
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId Int

@@ -29,7 +29,7 @@ const resolvers: Resolvers = {
           if (password) {
             hashPassword = await bcrypt.hash(password, 10);
           }
-          let fileUrl = null;
+          let fileUrl;
           if (avatar) {
             await deleteToS3(avatar, "avatar");
             fileUrl = await UploadToS3(avatar, loggedInUser.id, "avatar");
