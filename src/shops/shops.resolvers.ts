@@ -22,6 +22,18 @@ const resolvers: Resolvers = {
           id: userId,
         },
       }),
+    comments: ({ id }) =>
+      client.comment.findMany({
+        where: {
+          shopId: id,
+        },
+      }),
+    isMine: ({ userId }, _, { loggedInUser }) => {
+      if (!loggedInUser) {
+        return false;
+      }
+      return userId === loggedInUser.id;
+    },
   },
 };
 
