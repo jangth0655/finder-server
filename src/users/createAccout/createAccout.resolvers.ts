@@ -6,7 +6,7 @@ const resolvers: Resolvers = {
   Mutation: {
     createAccount: async (
       _,
-      { username, name, email, region, bio, careers, avatar, phone, password }
+      { username, name, email, region, bio, careers, phone, password }
     ) => {
       try {
         const existUser = await client.user.findFirst({

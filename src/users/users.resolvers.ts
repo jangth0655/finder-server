@@ -18,7 +18,7 @@ const resolvers: Resolvers = {
           });
       } catch (e) {
         console.log(e);
-        return null;
+        return false;
       }
     },
 
@@ -93,6 +93,20 @@ const resolvers: Resolvers = {
         },
       });
       return Boolean(exist);
+    },
+    shops: async ({ id }) => {
+      try {
+        return await client.user
+          .findUnique({
+            where: {
+              id,
+            },
+          })
+          .shops();
+      } catch (e) {
+        console.log(e);
+        return false;
+      }
     },
   },
 };

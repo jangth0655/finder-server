@@ -34,6 +34,27 @@ const resolvers: Resolvers = {
       }
       return userId === loggedInUser.id;
     },
+    isLike: async ({ id }, _, { loggedInUser }) => {
+      const favs = Boolean(
+        await client.fav.findFirst({
+          where: {
+            userId: loggedInUser.id,
+            shopId: id,
+          },
+          select: {
+            id: true,
+          },
+        })
+      );
+
+      return favs;
+    },
+    favCount: ({ id }) =>
+      client.fav.count({
+        where: {
+          shopId: id,
+        },
+      }),
   },
 };
 

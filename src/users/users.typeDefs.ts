@@ -1,10 +1,11 @@
 import { gql } from "apollo-server-core";
 
 export default gql`
+  scalar Date
   type User {
     id: Int!
-    createdAt: String!
-    updatedA: String!
+    createdAt: Date!
+    updatedA: Date!
     email: String!
     username: String!
     password: String!
@@ -22,5 +23,6 @@ export default gql`
     totalFollowers: Int
     isMe: Boolean!
     isFollowing: Boolean!
+    shops: [Shop]
   }
 `;

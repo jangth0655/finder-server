@@ -10,7 +10,7 @@ export default gql`
       url: Upload
       website: String
       region: String!
-      description: String!
+      description: String
       name: String!
       slug: String!
     ): CreateShopsResponse!

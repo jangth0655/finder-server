@@ -13,6 +13,7 @@ const resolvers: Resolvers = {
         { url, website, region, description, name, slug },
         { loggedInUser }
       ) => {
+        console.log(url);
         try {
           const existShop = await client.shop.findFirst({
             where: {
@@ -40,10 +41,10 @@ const resolvers: Resolvers = {
               },
             },
           });
+
           let fileUrl;
           if (shop && url) {
             fileUrl = await UploadToS3(url, loggedInUser.id, "Upload");
-
             await client.photo.create({
               data: {
                 url: fileUrl,
@@ -55,6 +56,7 @@ const resolvers: Resolvers = {
               },
             });
           }
+
           return {
             ok: true,
           };

@@ -12,7 +12,6 @@ export default gql`
       region: String!
       bio: String
       careers: String!
-      avatar: String
       phone: String
       password: String!
     ): CreateAccoutMutation!

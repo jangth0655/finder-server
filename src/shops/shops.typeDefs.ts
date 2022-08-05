@@ -6,6 +6,13 @@ export default gql`
     shop: [Shop]
   }
 
+  type Favs {
+    id: Int!
+    createdAt: String
+    updatedAt: String
+    shop: Shop
+  }
+
   type Shop {
     id: Int!
     createdAt: String
@@ -19,5 +26,7 @@ export default gql`
     comments: [Comment]
     user: User!
     isMine: Boolean
+    isLike: Boolean
+    favCount: Int
   }
 `;

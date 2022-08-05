@@ -2,7 +2,7 @@ import client from "../client";
 import { Resolvers } from "../type";
 
 const resolvers: Resolvers = {
-  Query: {
+  Mutation: {
     searchShop: async (_, { name }) => {
       const shop = await client.shop.findMany({
         where: {
