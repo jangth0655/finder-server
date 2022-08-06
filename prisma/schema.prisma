@@ -38,6 +38,7 @@ model Shop {
   website String?
   region String
   description String
+  phone String @default("")
   name String @unique
   slug String @unique
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)

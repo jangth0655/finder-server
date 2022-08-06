@@ -1,42 +1,39 @@
 import client from "../../client";
+import { deleteToS3 } from "../../shared/shared.utils";
 import { Resolvers } from "../../type";
+import { protectResolver } from "../../users/user.utils";
 
-const PAGE_SIZE = 5;
 const resolvers: Resolvers = {
-  Query: {
-    favShops: async (_, { id, page = 1 }) => {
+  Mutation: {
+    deletePhoto: protectResolver(async (_, { id, file }) => {
       try {
-        const existUser = await client.user.findFirst({
+        const existPhoto = await client.photo.findFirst({
           where: { id },
           select: { id: true },
         });
-        if (!existUser) {
+        if (!existPhoto) {
           return {
             ok: false,
-            error: "Could not found user.",
+            error: "Could not found Photo.",
           };
         }
-        const shops = await client.fav.findMany({
+        await deleteToS3(file, "Upload");
+        await client.photo.delete({
           where: {
-            userId: id,
+            id,
           },
-          select: {
-            shop: true,
-          },
-          take: PAGE_SIZE,
-          skip: (page - 1) * PAGE_SIZE,
         });
         return {
           ok: true,
-          shops,
         };
       } catch (e) {
         console.log(e);
         return {
           ok: false,
+          error: e,
         };
       }
-    },
+    }),
   },
 };
 

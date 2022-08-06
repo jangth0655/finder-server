@@ -13,6 +13,7 @@ export default gql`
       description: String
       name: String!
       slug: String!
+      phone: String!
     ): CreateShopsResponse!
   }
 `;

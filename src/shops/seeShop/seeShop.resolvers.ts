@@ -3,12 +3,20 @@ import { Resolvers } from "../../type";
 
 const resolvers: Resolvers = {
   Query: {
-    seeShop: (_, { id }) =>
-      client.shop.findUnique({
-        where: {
-          id,
-        },
-      }),
+    seeShop: async (_, { id }) => {
+      try {
+        const shop = await client.shop.findUnique({
+          where: {
+            id,
+          },
+        });
+
+        return shop;
+      } catch (e) {
+        console.log(e);
+        return;
+      }
+    },
   },
 };
 export default resolvers;

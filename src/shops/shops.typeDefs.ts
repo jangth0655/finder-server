@@ -1,5 +1,6 @@
 import { gql } from "apollo-server-core";
 export default gql`
+  scalar Date
   type Photo {
     id: Int!
     url: String!
@@ -15,8 +16,8 @@ export default gql`
 
   type Shop {
     id: Int!
-    createdAt: String
-    updatedAt: String
+    createdAt: Date
+    updatedAt: Date
     website: String
     region: String!
     description: String!
@@ -28,5 +29,6 @@ export default gql`
     isMine: Boolean
     isLike: Boolean
     favCount: Int
+    phone: String!
   }
 `;

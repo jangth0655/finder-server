@@ -10,10 +10,9 @@ const resolvers: Resolvers = {
     createShops: protectResolver(
       async (
         _,
-        { url, website, region, description, name, slug },
+        { url, website, region, description, name, slug, phone },
         { loggedInUser }
       ) => {
-        console.log(url);
         try {
           const existShop = await client.shop.findFirst({
             where: {
@@ -34,6 +33,7 @@ const resolvers: Resolvers = {
               region,
               description,
               slug,
+              phone,
               user: {
                 connect: {
                   id: loggedInUser.id,

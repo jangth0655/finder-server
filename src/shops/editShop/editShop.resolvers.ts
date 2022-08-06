@@ -8,13 +8,25 @@ const resolvers: Resolvers = {
     editShop: protectResolver(
       async (
         _,
-        { id, website, region, description, name, slug, url, photoId },
+        {
+          id,
+          website,
+          region,
+          description,
+          name,
+          slug,
+          url,
+          photoId,
+          photoUrl,
+          phone,
+        },
         { loggedInUser }
       ) => {
         const existShop = await client.shop.findUnique({
           where: { id },
           select: { id: true, name: true, slug: true },
         });
+
         if (!existShop) {
           return {
             ok: false,
@@ -23,16 +35,18 @@ const resolvers: Resolvers = {
         }
 
         if (name && name !== existShop.name) {
-          const existName = await client.shop.findUnique({
+          const existName = await client.shop.findFirst({
             where: { name },
             select: { id: true },
           });
+
           if (existName) {
             return {
               ok: false,
               error: "Name is already exist.",
             };
           }
+
           await client.shop.update({
             where: { id },
             data: { name },
@@ -40,16 +54,19 @@ const resolvers: Resolvers = {
         }
 
         if (slug && slug !== existShop.slug) {
-          const existSlug = await client.shop.findUnique({
+          const existSlug = await client.shop.findFirst({
             where: { slug },
-            select: { id },
+            select: { id: true },
           });
+
           if (existSlug) {
+            console.log("exist", existSlug);
             return {
               ok: false,
               error: "Slug is already exist.",
             };
           }
+
           await client.shop.update({
             where: { id },
             data: { slug },
@@ -57,12 +74,19 @@ const resolvers: Resolvers = {
         }
 
         let editPhoto;
-        if (url && photoId) {
-          await deleteToS3(photoId, "Upload");
+        if (url && photoId && photoUrl) {
+          await deleteToS3(photoUrl, "Upload");
+          await client.photo.delete({
+            where: {
+              id: photoId,
+            },
+          });
           editPhoto = await UploadToS3(url, loggedInUser.id, "Upload");
-          await client.photo.update({
-            where: { id: photoId },
-            data: { url: editPhoto },
+          await client.photo.create({
+            data: {
+              url: editPhoto,
+              shopId: id,
+            },
           });
         }
 
@@ -83,6 +107,13 @@ const resolvers: Resolvers = {
           await client.shop.update({
             where: { id: existShop.id },
             data: { region },
+          });
+        }
+
+        if (phone) {
+          await client.shop.update({
+            where: { id: existShop.id },
+            data: { phone },
           });
         }
 

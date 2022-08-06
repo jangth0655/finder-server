@@ -25,6 +25,26 @@ const resolvers: Resolvers = {
         { loggedInUser }
       ) => {
         try {
+          const currentUser = await client.user.findUnique({
+            where: {
+              id: loggedInUser.id,
+            },
+            select: {
+              id: true,
+              username: true,
+              email: true,
+            },
+          });
+          const existUser = await client.user.findFirst({
+            where: {
+              OR: [{ username }, { email }],
+            },
+            select: {
+              id: true,
+              username: true,
+              email: true,
+            },
+          });
           let hashPassword = null;
           if (password) {
             hashPassword = await bcrypt.hash(password, 10);
@@ -35,13 +55,37 @@ const resolvers: Resolvers = {
             fileUrl = await UploadToS3(avatar, loggedInUser.id, "avatar");
           }
 
+          if (username !== currentUser.username) {
+            if (username === existUser.username) {
+              return {
+                ok: false,
+                error: "Username is already taken.",
+              };
+            }
+            await client.user.update({
+              where: { id: loggedInUser.id },
+              data: { username },
+            });
+          }
+
+          if (email !== currentUser.email) {
+            if (email === existUser.email) {
+              return {
+                ok: false,
+                error: "Email is already taken.",
+              };
+            }
+            await client.user.update({
+              where: { id: loggedInUser.id },
+              data: { email },
+            });
+          }
+
           const updateUser = await client.user.update({
             where: {
               id: loggedInUser.id,
             },
             data: {
-              username,
-              email,
               bio,
               careers,
               region,

@@ -1,45 +1,9 @@
 import client from "../client";
 import { Resolvers } from "../type";
 
-const pageSize = 5;
+const PAGE_SIZE = 5;
 const resolvers: Resolvers = {
   User: {
-    seeFollowings: async ({ username }, { page = 1 }) => {
-      try {
-        return await client.user
-          .findFirst({
-            where: {
-              username,
-            },
-          })
-          .following({
-            take: pageSize,
-            skip: (page - 1) * pageSize,
-          });
-      } catch (e) {
-        console.log(e);
-        return false;
-      }
-    },
-
-    seeFollowers: async ({ username }, { page = 1 }) => {
-      try {
-        return await client.user
-          .findFirst({
-            where: {
-              username,
-            },
-          })
-          .followers({
-            take: pageSize,
-            skip: (page - 1) * pageSize,
-          });
-      } catch (e) {
-        console.log(e);
-        return null;
-      }
-    },
-
     totalFollowing: async ({ id }) => {
       try {
         return await client.user.count({
@@ -94,7 +58,8 @@ const resolvers: Resolvers = {
       });
       return Boolean(exist);
     },
-    shops: async ({ id }) => {
+    shops: async ({ id }, { page = 1 }) => {
+      console.log(page);
       try {
         return await client.user
           .findUnique({
@@ -102,7 +67,10 @@ const resolvers: Resolvers = {
               id,
             },
           })
-          .shops();
+          .shops({
+            take: PAGE_SIZE,
+            skip: (page - 1) * PAGE_SIZE,
+          });
       } catch (e) {
         console.log(e);
         return false;

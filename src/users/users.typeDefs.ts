@@ -15,14 +15,10 @@ export default gql`
     region: String!
     phone: String!
     name: String!
-    followers: [User]
-    following: [User]
-    seeFollowings(page: Int): [User]
-    seeFollowers(page: Int): [User]
     totalFollowing: Int
     totalFollowers: Int
     isMe: Boolean!
     isFollowing: Boolean!
-    shops: [Shop]
+    shops(page: Int): [Shop]
   }
 `;

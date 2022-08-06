@@ -9,6 +9,7 @@ const resolvers: Resolvers = {
         where: { id },
         select: { userId: true },
       });
+
       if (!existShop) {
         return {
           ok: false,

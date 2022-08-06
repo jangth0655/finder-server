@@ -26,13 +26,18 @@ const resolvers: Resolvers = {
         },
         select: { id: true },
       });
+
       if (fav) {
         await client.fav.delete({
           where: {
             id: fav.id,
           },
         });
+        return {
+          ok: true,
+        };
       }
+
       await client.fav.create({
         data: {
           userId: loggedInUser.id,

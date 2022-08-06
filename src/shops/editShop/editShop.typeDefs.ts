@@ -7,14 +7,17 @@ export default gql`
   }
   type Mutation {
     editShop(
-      id: Int
+      id: Int!
       website: String
       region: String
       description: String
       name: String
       slug: String
       url: Upload
+      shop: String
+      phone: String
       photoId: Int
+      photoUrl: String
     ): EditShopResponse!
   }
 `;
