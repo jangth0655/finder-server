@@ -18,7 +18,7 @@ const resolvers: Resolvers = {
             error: "Could not found Shop.",
           };
         }
-        await client.comment.create({
+        const newComment = await client.comment.create({
           data: {
             comment,
             shop: {
@@ -31,6 +31,7 @@ const resolvers: Resolvers = {
         });
         return {
           ok: true,
+          id: newComment.id,
         };
       }
     ),

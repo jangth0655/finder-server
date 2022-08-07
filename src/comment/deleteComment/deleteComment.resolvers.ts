@@ -20,13 +20,15 @@ const resolvers: Resolvers = {
           error: "Not authorized.",
         };
       } else {
-        await client.comment.delete({
+        const deleteComment = await client.comment.delete({
           where: {
             id,
           },
         });
+
         return {
           ok: true,
+          id: deleteComment.id,
         };
       }
     }),

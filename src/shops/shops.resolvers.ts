@@ -22,11 +22,25 @@ const resolvers: Resolvers = {
           id: userId,
         },
       }),
-    comments: ({ id }) =>
+    comments: ({ id }, { page = 1 }) =>
       client.comment.findMany({
         where: {
           shopId: id,
         },
+        select: {
+          comment: true,
+          id: true,
+          createdAt: true,
+          user: {
+            select: {
+              avatar: true,
+              username: true,
+              id: true,
+            },
+          },
+        },
+        take: pageSize,
+        skip: (page - 1) * pageSize,
       }),
     isMine: ({ userId }, _, { loggedInUser }) => {
       if (!loggedInUser) {

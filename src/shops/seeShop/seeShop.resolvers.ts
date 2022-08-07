@@ -9,6 +9,9 @@ const resolvers: Resolvers = {
           where: {
             id,
           },
+          include: {
+            user: true,
+          },
         });
 
         return shop;

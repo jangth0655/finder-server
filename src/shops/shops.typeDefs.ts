@@ -24,7 +24,7 @@ export default gql`
     name: String!
     slug: String!
     photos(page: Int): [Photo]
-    comments: [Comment]
+    comments(page: Int): [Comment]
     user: User!
     isMine: Boolean
     isLike: Boolean
