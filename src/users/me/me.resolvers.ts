@@ -16,8 +16,10 @@ const resolvers: Resolvers = {
         });
         return user;
       } catch (e) {
-        console.log(e);
-        return false;
+        return {
+          ok: false,
+          error: e,
+        };
       }
     }),
   },

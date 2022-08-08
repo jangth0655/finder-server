@@ -15,19 +15,21 @@ const resolvers: Resolvers = {
           ok: false,
           error: "Could not found.",
         };
-      } else if (existShop.userId !== loggedInUser.id) {
+      }
+      if (existShop.userId !== loggedInUser.id) {
         return {
           ok: false,
           error: "Not authorized.",
         };
-      } else {
-        await client.shop.delete({
-          where: { id },
-        });
-        return {
-          ok: true,
-        };
       }
+      const deleteShop = await client.shop.delete({
+        where: { id },
+      });
+
+      return {
+        ok: true,
+        id: deleteShop.id,
+      };
     }),
   },
 };

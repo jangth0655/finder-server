@@ -31,9 +31,9 @@ const resolvers: Resolvers = {
           shops,
         };
       } catch (e) {
-        console.log(e);
         return {
           ok: false,
+          error: e,
         };
       }
     },

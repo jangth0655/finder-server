@@ -32,8 +32,10 @@ const resolvers: Resolvers = {
           users,
         };
       } catch (e) {
-        console.log(e);
-        return false;
+        return {
+          ok: false,
+          error: e,
+        };
       }
     },
   },
