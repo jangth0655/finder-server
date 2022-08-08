@@ -7,6 +7,7 @@ import { typeDefs, resolvers } from "./schema";
 import { ApolloServerPluginDrainHttpServer } from "apollo-server-core";
 import { graphqlUploadExpress } from "graphql-upload";
 import { getUser } from "./users/user.utils";
+import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core";
 
 const PORT = process.env.PORT;
 
@@ -23,7 +24,11 @@ async function startApolloServer() {
         loggedInUser: await getUser(req.headers.token as string),
       };
     },
-    plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+    plugins: [
+      ApolloServerPluginDrainHttpServer({ httpServer }),
+      ApolloServerPluginLandingPageGraphQLPlayground(),
+    ],
+    introspection: true,
   });
 
   //app.use(logger("tiny"));
