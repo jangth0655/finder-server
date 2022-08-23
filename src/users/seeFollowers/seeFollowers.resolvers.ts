@@ -17,16 +17,18 @@ const resolvers: Resolvers = {
             error: "Could not found user.",
           };
         }
+
         const users = await client.user
           .findFirst({
             where: {
-              id: loggedInUser.id,
+              id: existUser.id,
             },
           })
           .followers({
             take: PageSize,
             skip: (page - 1) * PageSize,
           });
+
         return {
           ok: true,
           users,
