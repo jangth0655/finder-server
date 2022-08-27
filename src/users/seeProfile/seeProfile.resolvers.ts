@@ -3,12 +3,10 @@ import { Resolvers } from "../../type";
 
 const resolvers: Resolvers = {
   Query: {
-    seeProfile: async (_, { username }) => {
+    seeProfile: async (_, { id }) => {
       try {
-        const user = await client.user.findUnique({
-          where: {
-            username,
-          },
+        const user = await client.user.findFirst({
+          where: { id },
         });
         if (!user) {
           return {

@@ -59,7 +59,6 @@ const resolvers: Resolvers = {
       return Boolean(exist);
     },
     shops: async ({ id }, { page = 1 }) => {
-      console.log(page);
       try {
         return await client.user
           .findUnique({

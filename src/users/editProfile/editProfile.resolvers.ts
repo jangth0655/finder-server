@@ -99,6 +99,7 @@ const resolvers: Resolvers = {
           if (updateUser.id) {
             return {
               ok: true,
+              username: updateUser.username,
             };
           } else {
             return {
