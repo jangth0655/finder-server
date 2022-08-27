@@ -7,11 +7,10 @@ const resolvers: Resolvers = {
       const shop = await client.shop.findMany({
         where: {
           name: {
-            startsWith: name,
+            contains: name,
           },
         },
       });
-
       return shop;
     },
   },
