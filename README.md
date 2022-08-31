@@ -1,4 +1,4 @@
-![header](https://capsule-render.vercel.app/api?type=rounded&color=auto&height=120&section=header&text=Finder&fontSize=70)
+![header](https://capsule-render.vercel.app/api?type=wave&color=auto&height=400&section=header&text=Finder&fontSize=70)
 
 <div>
     <div>
@@ -16,7 +16,6 @@
 
 - 🛠 [Built with](#built-with)
 - 🚀 [Project](#project)
-- 📖 [Pages](#pages)
 - ✓ [Features](#features)
 - 🔥 [Code](#code)
 - 👍 [느낀점](#느낀점)
@@ -47,7 +46,7 @@
 - Client : `Netlify`
 - Server : `Heroku` , `AWS S3`
 
-### Projects
+### Project
 
 - **모델**
   <div style="margin-top:10px">
@@ -112,7 +111,7 @@ return {
 
 - 유저는 로그인 유저 혹은 다른 유저의 프로필을 확인할 수 있습니다.
 - 로그인 유저가 게시한 샵, "좋아요"를 한 해당 샵을 확인할 수 있습니다.
-- 해당 유저를 팔로워를 확인할 수 있고, 팔로워를 할 수 있습니다.
+- 해당 유저를 "팔로워"를 확인할 수 있고, "팔로워"를 할 수 있습니다.
 
 <br/><br/>
 
@@ -120,6 +119,7 @@ return {
 
 - `User` type의 `computed field`를 활용하여 프로필 유저가 로그인 유저인지 확인합니다.
 - 유저의 정보 (이메일, 유저네임, 아바타, 패스워드 등등)을 변경할 수 있습니다.
+- 아바타를 수정하는 경우 새로운 아바타는 `AWS`에 저장되고 이전 아바타는 삭제됩니다.
 - 이메일과, 유저네임은 유니크하므로 이미 존재여부를 체크하고 업데이트합니다.
 - 새로운 비밀번호는 `bcrypt`를 이용하여 해쉬한다음 업데이트 합니다.
 
@@ -147,3 +147,106 @@ if (username !== currentUser.username) {
 - 계정 삭제할 경우, 유저의 아바타가 있다면 `AWS S3`에 저장된 이미지도 함께 삭제됩니다.
 
 <br/><br/>
+
+> 샵 업로드
+
+- 슬러그, 샵이름, 전화번호, 지역, 사진 등 정보를 입력하여 업로드 할 수 있습니다.
+- 샵이름과 슬러그는 유니크하기 때문에 존재하는지 여부를 체크하여 업로드할 수 있습니다.
+- 샵의 이미지가 존재한다면 `AWS S3`에 저장됩니다.
+
+<br/><br/>
+
+> 샵 수정
+
+- 슬러그, 샵이름, 전화번호, 지역, 사진 등 정보를 수정할 수 있습니다.
+- 샵이름과 슬러그는 유니크하기 때문에 존재여부를 체크하여 수정할 수 있습니다.
+- 사진을 수정할 경우 새로운 사진이 있다면 현재 사진을 삭제하고 새로운 사진을 저장합니다.  
+  → 'AWS S3'와 데이터베이스에서 삭제 및 업데이트
+- 샵을 삭제할 수 있습니다.
+
+<br/><br/>
+
+> About Shop (상세정보)
+
+- 샵이름, 슬러그, 샵 게시한 유저네임 등 샵의 정보를 확인할 수 있습니다.
+- 샵에서 게시한 삽의 사진을 확인할 수 있습니다.
+- 로그인 여부를 체크하여 샵의 댓글을 확인할 수 있으며 샵의 댓글을 작성할 수 있습니다.
+- 해당 샵의 유저라면 샵의 사진을 추가로 업로드할 수 있습니다.
+- '좋아요' 기능을 사용할 수 있습니다.  
+  → '좋아요'가 있다면 '좋아요'를 삭제하고, '좋아요' 없다면 '좋아요' 생성
+  ```typescript
+  if (fav) {
+    await client.fav.delete({
+      where: {
+        id: fav.id,
+      },
+    });
+    return {
+      ok: true,
+    };
+    await client.fav.create({
+      data: {
+        userId: loggedInUser.id,
+        shopId: id,
+      },
+    });
+    return {
+      ok: true,
+    };
+  }
+  ```
+
+<br/><br/>
+
+> 검색 기능
+
+- 키워드에 샵 이름이 포함된다면 포함된 모든 샵을 검색할 수 있습니다.
+
+<br/><br/>
+
+## Features
+
+## 🌈 Shop
+
+- Info
+- 게시한 사진 (AWS S3 저장)
+- 사진 업로드 (AWS S3 저장)
+- 샵 수정 (새로운 사진 AWS S3 저장, 현재 사진 삭제)
+  <br />
+
+### 🙋‍♂️ User
+
+- 회원가입 / 로그인
+- 아바타 업로드 (AWS S3 저장)
+- 프로필 수정 (새로운 아바타 AWS S3 저장, 현재아바타 삭제)
+- 회원정보 변경
+  <br />
+
+### Comment
+
+- 댓글 작성 및 삭제
+- 즉각적인 반응
+
+### Deploy
+
+- Heroku
+
+## Code
+
+<a href="https://github.com/jangth0655/finder-server">🔥 GitHub</a>
+
+<br /><br />
+
+## 느낀점
+
+```
+서버측 느낀점..
+Apollo Server와 Express를 통합하고 typeDefs와 resolvers를 서버에 설정하는 것등을 알게되었으며,
+스키마와 타입시스템을 정의하고 Graphql의 Query와 Mutation을 좀 더 이해하게 되었습니다. 또한 Computed Flied를 통해
+쿼리 할 수 있다는 점에서 흥미로웠습니다. 또한 모델간의 관계(모델의 참조 관계)를 설정하고 Prisma(ORM)을
+이용하여 데이터베이스로 부터 데이터를 쿼라, 조작하는 것 등을 배울 수 있었습니다.
+그리고 Heroku를 통해 Heroku cli, 환경변수 설정하여 배포하는것을 좀 더 이해하는 계기가 되었습니다.
+하지만 아직 모델간의 관계를 이해하는 부분에 있어서 부족함이 있다고 느꼈고, 모델간의 관계를 어떤식으로
+풀어나가야할지 부족함을 느꼈습니다.
+초기에 프로젝트의 궁극적인 목적과 기능, 모델등을 좀 더 신중하게 고민할 필요가 있다고 생각이 들었습니다.
+```
