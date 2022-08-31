@@ -5,6 +5,6 @@ export default gql`
     error: String
   }
   type Mutation {
-    deleteAccount(id: Int!): DeleteAccount!
+    deleteAccount(id: Int!, avatar: String): DeleteAccount!
   }
 `;
