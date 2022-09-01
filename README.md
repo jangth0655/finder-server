@@ -48,11 +48,13 @@
 
 ### Project
 
-- **모델**
-  <div style="margin-top:10px">
-    <img style="border-radius:10px" height="140" src="./assets/logo.jpeg" />  
-  </div>
-  <br /><br />
+✓ 모델
+
+<div>
+  <img style="border-radius:10px" height="300" src="./assets/finder-model.png" /> 
+</div>
+
+<br /> <br />
 
 > 서버
 
@@ -239,14 +241,10 @@ if (username !== currentUser.username) {
 
 ## 느낀점
 
-```
-서버측 느낀점..
-Apollo Server와 Express를 통합하고 typeDefs와 resolvers를 서버에 설정하는 것등을 알게되었으며,
-스키마와 타입시스템을 정의하고 Graphql의 Query와 Mutation을 좀 더 이해하게 되었습니다. 또한 Computed Flied를 통해
-쿼리 할 수 있다는 점에서 흥미로웠습니다. 또한 모델간의 관계(모델의 참조 관계)를 설정하고 Prisma(ORM)을
-이용하여 데이터베이스로 부터 데이터를 쿼라, 조작하는 것 등을 배울 수 있었습니다.
-그리고 Heroku를 통해 Heroku cli, 환경변수 설정하여 배포하는것을 좀 더 이해하는 계기가 되었습니다.
-하지만 아직 모델간의 관계를 이해하는 부분에 있어서 부족함이 있다고 느꼈고, 모델간의 관계를 어떤식으로
-풀어나가야할지 부족함을 느꼈습니다.
-초기에 프로젝트의 궁극적인 목적과 기능, 모델등을 좀 더 신중하게 고민할 필요가 있다고 생각이 들었습니다.
-```
+- 모델간의 관계를 설정하고 Prisma(ORM)을 이용하여 데이터베이스로 부터 데이터를 쿼리, 조작하는 것 등을 좀 더 익힐 수 있었다.
+- `Apollo`와 `Express`를 통합하고 `Graphql-tools`을 설정하는 것을 직접 해보며 필요성을 알 수 있었다.
+- 타입시스템을 정의하고 `Resolver`을 통해 쿼리를 조작하고 `Query`와 `Mutation` 활용하면서 좀 더 익숙해지고 이해할 수 있었다.
+- 데이터베이스 스키마에 정의하지 않은 필드를 `Computed Flied`활용한다는 점에서 흥미로웠다.
+- Heroku를 통해 Heroku cli, 환경변수 설정하여 배포하는것을 좀 더 이해하는 계기가 되었다.
+- 하지만 모델간의 관계를 이해하는 부분에서 부족함이 있었고, 모델간의 관계를 코드를 통해 어떤식으로 풀어 나가야할지 부족함을 알 수있었다.
+- 초기에 프로젝트의 궁극적인 목적과 기능, 모델등을 좀 더 신중하게 고민할 필요가 있다고 생각이 들었다.
